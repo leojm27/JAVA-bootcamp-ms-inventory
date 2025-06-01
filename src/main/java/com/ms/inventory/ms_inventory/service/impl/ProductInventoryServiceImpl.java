@@ -15,6 +15,10 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
 
     private final ProductInventoryRepository productInventoryRepository;
 
+    /**
+     * Obtiene una lista de todos los inventarios de productos.
+     * @return List<ProductInventory>
+     */
     @Override
     public List<ProductInventory> getProductInventories() {
         return productInventoryRepository.findAll()
@@ -23,6 +27,11 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
                 .toList();
     }
 
+    /**
+     * Obtiene un inventario de producto por su ID.
+     * @param id
+     * @return ProductInventory o null si no se encuentra el inventario.
+     */
     @Override
     public ProductInventory getProductInventoryById(Long id) {
         return productInventoryRepository.findById(id)
@@ -30,11 +39,22 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
                 .orElse(null);
     }
 
+    /**
+     * Crea un nuevo inventario de producto.
+     * @param productInventory
+     * @return ProductInventory creado.
+     */
     @Override
     public ProductInventory createProductInventory(ProductInventory productInventory) {
         return productInventoryRepository.save(productInventory);
     }
 
+    /**
+     * Actualiza un inventario de producto por su ID.
+     * @param productInventory
+     * @param id
+     * @return ProductInventory actualizado o null si no se encuentra el inventario.
+     */
     @Override
     public ProductInventory updateProductInventory(ProductInventory productInventory, Long id) {
         return productInventoryRepository.findById(id)
@@ -52,6 +72,11 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
                 }).orElse(null);
     }
 
+    /**
+     * Elimina de manera logica un inventario de producto por su ID.
+     * @param id
+     * @throws IllegalArgumentException si el inventario del producto no existe.
+     */
     @Override
     public void softDeleteProductInventory(Long id) {
         ProductInventory productInventory = productInventoryRepository.findById(id).orElse(null);
@@ -63,6 +88,12 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
         productInventoryRepository.save(productInventory);
     }
 
+    /**
+     * Actualiza un inventario de producto por su ID de producto.
+     * @param updateProductInventory
+     * @param productId
+     * @return ProductInventory actualizado o null si no se encuentra el inventario.
+     */
     @Override
     public ProductInventory updateProductInventoryPorProductId(ProductInventory updateProductInventory, Long productId) {
         ProductInventory productInventory = productInventoryRepository.findByProductId(productId);
@@ -77,6 +108,11 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
         return productInventoryRepository.save(productInventory);
     }
 
+    /**
+     * Elimina de manera logica un inventario de producto por su ID de producto.
+     * @param productId
+     * @throws IllegalArgumentException si el inventario del producto no existe o ya ha sido eliminado.
+     */
     @Override
     public void softDeleteProductInventoryByProductId(Long productId) {
         ProductInventory productInventory = productInventoryRepository.findByProductId(productId);

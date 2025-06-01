@@ -14,6 +14,10 @@ public class ProductInventoryController {
 
     private final ProductInventoryService productInventoryService;
 
+    /**
+     * Obtiene todos los inventarios de productos.
+     * @return ResponseEntity con la lista de inventarios de productos o un mensaje de error.
+     */
     @GetMapping("/api/product-inventories")
     public ResponseEntity<?> getProductInventories() {
         try {
@@ -25,6 +29,11 @@ public class ProductInventoryController {
         }
     }
 
+    /**
+     * Obtiene un inventario de producto por su ID.
+     * @param id
+     * @return ResponseEntity con el inventario de producto o un mensaje de error.
+     */
     @GetMapping("/api/product-inventories/{id}")
     public ResponseEntity<?> getProductInventoryById(@PathVariable Long id) {
         try {
@@ -41,6 +50,11 @@ public class ProductInventoryController {
         }
     }
 
+    /**
+     * Crea un nuevo inventario de producto.
+     * @param productInventory
+     * @return ResponseEntity con el inventario de producto creado o un mensaje de error.
+     */
     @PostMapping("/api/product-inventories")
     public ResponseEntity<?> createProductInventory(@RequestBody ProductInventory productInventory) {
         try {
@@ -57,6 +71,12 @@ public class ProductInventoryController {
         }
     }
 
+    /**
+     * Actualiza un inventario de producto existente.
+     * @param productInventory
+     * @param id
+     * @return ResponseEntity con el inventario de producto actualizado o un mensaje de error.
+     */
     @PutMapping("/api/product-inventories/{id}")
     public ResponseEntity<?> updateProductInventory(@RequestBody ProductInventory productInventory, @PathVariable("id") Long id) {
         try {
@@ -73,6 +93,11 @@ public class ProductInventoryController {
         }
     }
 
+    /**
+     * Elimina de manera logica un inventario de producto por su ID.
+     * @param id
+     * @return ResponseEntity con el estado de la eliminación o un mensaje de error.
+     */
     @DeleteMapping("/api/product-inventories/{id}")
     public ResponseEntity<?> deleteProductInventory(@PathVariable("id") Long id) {
         try {
@@ -89,6 +114,12 @@ public class ProductInventoryController {
         }
     }
 
+    /**
+     * Actualiza un inventario de producto por su ID de producto.
+     * @param productInventory
+     * @param id
+     * @return ResponseEntity con el inventario de producto actualizado o un mensaje de error.
+     */
     @PutMapping("/api/product-inventories/by-product/{productId}")
     public ResponseEntity<?> updateProductInventoryPorProductId(@RequestBody ProductInventory productInventory, @PathVariable("productId") Long id) {
         try {
@@ -105,6 +136,11 @@ public class ProductInventoryController {
         }
     }
 
+    /**
+     * Elimina de manera logica un inventario de producto por su ID de producto.
+     * @param productId
+     * @return ResponseEntity con el estado de la eliminación o un mensaje de error.
+     */
     @DeleteMapping("/api/product-inventories/by-product/{productId}")
     public ResponseEntity<?> deleteProductInventoryByProductId(@PathVariable("productId") Long productId) {
         try {
