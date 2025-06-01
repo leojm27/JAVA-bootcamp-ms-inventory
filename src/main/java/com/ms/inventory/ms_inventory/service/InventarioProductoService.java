@@ -1,0 +1,23 @@
+package com.ms.inventory.ms_inventory.service;
+
+import com.ms.inventory.ms_inventory.models.InventarioProducto;
+
+import java.util.List;
+
+public interface InventarioProductoService {
+
+    List<InventarioProducto> getInventarioProductos();
+
+    InventarioProducto getInventarioProductoById(Long id);
+
+    InventarioProducto createInventarioProducto(InventarioProducto inventarioProducto);
+
+    InventarioProducto updateInventarioProducto(InventarioProducto inventarioProducto, Long id);
+
+    InventarioProducto updateInventarioProductoPorProductoId(InventarioProducto inventarioProducto, Long productId);
+
+    void softDeleteInventarioProducto(Long id);
+
+    void softDeleteInventarioProductoPorProductoId(Long productId);
+
+}

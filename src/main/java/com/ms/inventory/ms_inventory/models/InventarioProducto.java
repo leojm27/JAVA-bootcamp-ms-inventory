@@ -7,16 +7,16 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "product_inventory")
+@Table(name = "inventario_producto")
 @NoArgsConstructor
-public class ProductInventory {
+public class InventarioProducto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "product_id", nullable = false)
-    private Long productId;
+    @Column(name = "producto_id", nullable = false)
+    private Long productoId;
 
     @Column(name = "cantidad", nullable = false)
     private Long cantidad;
@@ -33,8 +33,8 @@ public class ProductInventory {
     @Column(name = "deleted_at")
     private Date deletedAt;
 
-    public ProductInventory(Long productId, Long cantidad, Long cantidadMinima) {
-        this.productId = productId;
+    public InventarioProducto(Long productoId, Long cantidad, Long cantidadMinima) {
+        this.productoId = productoId;
         this.cantidad = cantidad;
         this.cantidadMinima = cantidadMinima;
     }

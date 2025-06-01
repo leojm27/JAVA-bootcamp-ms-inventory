@@ -1,0 +1,126 @@
+package com.ms.inventory.ms_inventory.service.impl;
+
+import com.ms.inventory.ms_inventory.models.InventarioProducto;
+import com.ms.inventory.ms_inventory.repository.InventarioProductoRepository;
+import com.ms.inventory.ms_inventory.service.InventarioProductoService;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.Date;
+import java.util.List;
+
+@Service
+@AllArgsConstructor
+public class InventarioProductoServiceImpl implements InventarioProductoService {
+
+    private final InventarioProductoRepository productInventoryRepository;
+
+    /**
+     * Obtiene una lista de todos los inventarios de productos.
+     * @return List<ProductInventory>
+     */
+    @Override
+    public List<InventarioProducto> getInventarioProductos() {
+        return productInventoryRepository.findAll()
+                .stream()
+                .filter(inventarioProducto -> inventarioProducto.getDeletedAt() == null)
+                .toList();
+    }
+
+    /**
+     * Obtiene un inventario de producto por su ID.
+     * @param id
+     * @return ProductInventory o null si no se encuentra el inventario.
+     */
+    @Override
+    public InventarioProducto getInventarioProductoById(Long id) {
+        return productInventoryRepository.findById(id)
+                .filter(inventarioProducto -> inventarioProducto.getDeletedAt() == null)
+                .orElse(null);
+    }
+
+    /**
+     * Crea un nuevo inventario de producto.
+     * @param inventarioProducto
+     * @return ProductInventory creado.
+     */
+    @Override
+    public InventarioProducto createInventarioProducto(InventarioProducto inventarioProducto) {
+        return productInventoryRepository.save(inventarioProducto);
+    }
+
+    /**
+     * Actualiza un inventario de producto por su ID.
+     * @param inventarioProducto
+     * @param id
+     * @return ProductInventory actualizado o null si no se encuentra el inventario.
+     */
+    @Override
+    public InventarioProducto updateInventarioProducto(InventarioProducto inventarioProducto, Long id) {
+        return productInventoryRepository.findById(id)
+                .map(existingInventarioProducto -> {
+                    if (inventarioProducto.getCantidad() != null) {
+                        existingInventarioProducto.setCantidad(inventarioProducto.getCantidad());
+                    }
+                    if (inventarioProducto.getProductoId() != null) {
+                        existingInventarioProducto.setProductoId(inventarioProducto.getProductoId());
+                    }
+                    if (inventarioProducto.getCantidadMinima() != null) {
+                        existingInventarioProducto.setCantidadMinima(inventarioProducto.getCantidadMinima());
+                    }
+                    return productInventoryRepository.save(existingInventarioProducto);
+                }).orElse(null);
+    }
+
+    /**
+     * Elimina de manera logica un inventario de producto por su ID.
+     * @param id
+     * @throws IllegalArgumentException si el inventario del producto no existe.
+     */
+    @Override
+    public void softDeleteInventarioProducto(Long id) {
+        InventarioProducto inventarioProducto = productInventoryRepository.findById(id).orElse(null);
+        if (inventarioProducto == null) {
+            throw new IllegalArgumentException("El inventario del producto con ID " + id + " no existe");
+        }
+
+        inventarioProducto.setDeletedAt(new java.util.Date());
+        productInventoryRepository.save(inventarioProducto);
+    }
+
+    /**
+     * Actualiza un inventario de producto por su ID de producto.
+     * @param updateInventarioProducto
+     * @param productId
+     * @return ProductInventory actualizado o null si no se encuentra el inventario.
+     */
+    @Override
+    public InventarioProducto updateInventarioProductoPorProductoId(InventarioProducto updateInventarioProducto, Long productId) {
+        InventarioProducto inventarioProducto = productInventoryRepository.findByProductoId(productId);
+        if (inventarioProducto == null || inventarioProducto.getDeletedAt() != null) { return null; }
+
+        if (updateInventarioProducto.getCantidad() != null) {
+            inventarioProducto.setCantidad(updateInventarioProducto.getCantidad());
+        }
+        if (updateInventarioProducto.getCantidadMinima() != null) {
+            inventarioProducto.setCantidadMinima(updateInventarioProducto.getCantidadMinima());
+        }
+        return productInventoryRepository.save(inventarioProducto);
+    }
+
+    /**
+     * Elimina de manera logica un inventario de producto por su ID de producto.
+     * @param productId
+     * @throws IllegalArgumentException si el inventario del producto no existe o ya ha sido eliminado.
+     */
+    @Override
+    public void softDeleteInventarioProductoPorProductoId(Long productId) {
+        InventarioProducto inventarioProducto = productInventoryRepository.findByProductoId(productId);
+        if (inventarioProducto == null || inventarioProducto.getDeletedAt() != null) {
+            throw new IllegalArgumentException("El inventario del producto con ID " + productId + " no existe");
+        }
+
+        inventarioProducto.setDeletedAt(new Date());
+        productInventoryRepository.save(inventarioProducto);
+    }
+}

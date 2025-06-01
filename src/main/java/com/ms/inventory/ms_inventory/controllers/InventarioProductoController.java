@@ -1,8 +1,7 @@
 package com.ms.inventory.ms_inventory.controllers;
 
-import com.ms.inventory.ms_inventory.models.ProductInventory;
-import com.ms.inventory.ms_inventory.service.ProductInventoryService;
-import jakarta.validation.Valid;
+import com.ms.inventory.ms_inventory.models.InventarioProducto;
+import com.ms.inventory.ms_inventory.service.InventarioProductoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,18 +9,19 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @AllArgsConstructor
-public class ProductInventoryController {
+public class InventarioProductoController {
 
-    private final ProductInventoryService productInventoryService;
+    private final InventarioProductoService productInventoryService;
 
     /**
      * Obtiene todos los inventarios de productos.
      * @return ResponseEntity con la lista de inventarios de productos o un mensaje de error.
      */
-    @GetMapping("/api/product-inventories")
+    @GetMapping("/api/inventario-producto")
     public ResponseEntity<?> getProductInventories() {
+        System.out.println("Obteniendo inventarios de productos...");
         try {
-            return ResponseEntity.ok(productInventoryService.getProductInventories());
+            return ResponseEntity.ok(productInventoryService.getInventarioProductos());
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -34,14 +34,16 @@ public class ProductInventoryController {
      * @param id
      * @return ResponseEntity con el inventario de producto o un mensaje de error.
      */
-    @GetMapping("/api/product-inventories/{id}")
+    @GetMapping("/api/inventario-producto/{id}")
     public ResponseEntity<?> getProductInventoryById(@PathVariable Long id) {
         try {
-            var productInventory = productInventoryService.getProductInventoryById(id);
+            var productInventory = productInventoryService.getInventarioProductoById(id);
             if (productInventory != null) {
                 return ResponseEntity.ok(productInventory);
             } else {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body("Inventario de producto con ID " + id + " no encontrado.");
             }
         } catch (Exception e) {
             return ResponseEntity
@@ -52,16 +54,16 @@ public class ProductInventoryController {
 
     /**
      * Crea un nuevo inventario de producto.
-     * @param productInventory
+     * @param inventarioProducto
      * @return ResponseEntity con el inventario de producto creado o un mensaje de error.
      */
-    @PostMapping("/api/product-inventories")
-    public ResponseEntity<?> createProductInventory(@RequestBody ProductInventory productInventory) {
+    @PostMapping("/api/inventario-producto")
+    public ResponseEntity<?> createInventarioProducto(@RequestBody InventarioProducto inventarioProducto) {
         try {
-            ProductInventory newProductInventory = productInventoryService.createProductInventory(productInventory);
+            InventarioProducto newInventarioProducto = productInventoryService.createInventarioProducto(inventarioProducto);
             return ResponseEntity
                     .status(HttpStatus.CREATED)
-                    .body(newProductInventory);
+                    .body(newInventarioProducto);
         } catch (IllegalArgumentException ie) {
             return ResponseEntity.badRequest().body(ie.getMessage());
         } catch (Exception e) {
@@ -73,18 +75,21 @@ public class ProductInventoryController {
 
     /**
      * Actualiza un inventario de producto existente.
-     * @param productInventory
+     * @param inventarioProducto
      * @param id
      * @return ResponseEntity con el inventario de producto actualizado o un mensaje de error.
      */
-    @PutMapping("/api/product-inventories/{id}")
-    public ResponseEntity<?> updateProductInventory(@RequestBody ProductInventory productInventory, @PathVariable("id") Long id) {
+    @PutMapping("/api/inventario-producto/{id}")
+    public ResponseEntity<?> updateInventarioProducto(@RequestBody InventarioProducto inventarioProducto, @PathVariable("id") Long id) {
+        System.out.println("updateInventarioProducto");
         try {
-            ProductInventory updatedProductInventory = productInventoryService.updateProductInventory(productInventory, id);
-            if (updatedProductInventory != null) {
-                return ResponseEntity.ok(updatedProductInventory);
+            InventarioProducto updatedInventarioProducto = productInventoryService.updateInventarioProducto(inventarioProducto, id);
+            if (updatedInventarioProducto != null) {
+                return ResponseEntity.ok(updatedInventarioProducto);
             } else {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body("Inventario de producto con ID " + id + " no encontrado");
             }
         } catch (Exception e) {
             return ResponseEntity
@@ -98,10 +103,10 @@ public class ProductInventoryController {
      * @param id
      * @return ResponseEntity con el estado de la eliminación o un mensaje de error.
      */
-    @DeleteMapping("/api/product-inventories/{id}")
-    public ResponseEntity<?> deleteProductInventory(@PathVariable("id") Long id) {
+    @DeleteMapping("/api/inventario-producto/{id}")
+    public ResponseEntity<?> deleteInventarioProducto(@PathVariable("id") Long id) {
         try {
-            productInventoryService.softDeleteProductInventory(id);
+            productInventoryService.softDeleteInventarioProducto(id);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException ie) {
             return ResponseEntity
@@ -116,18 +121,20 @@ public class ProductInventoryController {
 
     /**
      * Actualiza un inventario de producto por su ID de producto.
-     * @param productInventory
+     * @param inventarioProducto
      * @param id
      * @return ResponseEntity con el inventario de producto actualizado o un mensaje de error.
      */
-    @PutMapping("/api/product-inventories/by-product/{productId}")
-    public ResponseEntity<?> updateProductInventoryPorProductId(@RequestBody ProductInventory productInventory, @PathVariable("productId") Long id) {
+    @PutMapping("/api/inventario-producto/por-producto/{productId}")
+    public ResponseEntity<?> updateInventarioProductoPorProductoId(@RequestBody InventarioProducto inventarioProducto, @PathVariable("productId") Long id) {
         try {
-            ProductInventory updatedProductInventory = productInventoryService.updateProductInventoryPorProductId(productInventory, id);
-            if (updatedProductInventory != null) {
-                return ResponseEntity.ok(updatedProductInventory);
+            InventarioProducto updatedInventarioProducto = productInventoryService.updateInventarioProductoPorProductoId(inventarioProducto, id);
+            if (updatedInventarioProducto != null) {
+                return ResponseEntity.ok(updatedInventarioProducto);
             } else {
-                return ResponseEntity.notFound().build();
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body("Inventario de producto con ID " + id + " no encontrado");
             }
         } catch (Exception e) {
             return ResponseEntity
@@ -141,10 +148,10 @@ public class ProductInventoryController {
      * @param productId
      * @return ResponseEntity con el estado de la eliminación o un mensaje de error.
      */
-    @DeleteMapping("/api/product-inventories/by-product/{productId}")
-    public ResponseEntity<?> deleteProductInventoryByProductId(@PathVariable("productId") Long productId) {
+    @DeleteMapping("/api/inventario-producto/por-producto/{productId}")
+    public ResponseEntity<?> deleteInventarioProductoPorProductoId(@PathVariable("productId") Long productId) {
         try {
-            productInventoryService.softDeleteProductInventoryByProductId(productId);
+            productInventoryService.softDeleteInventarioProductoPorProductoId(productId);
             return ResponseEntity.ok().build();
         } catch (IllegalArgumentException ie) {
             return ResponseEntity
