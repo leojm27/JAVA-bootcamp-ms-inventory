@@ -1,4 +1,4 @@
-package com.ms.inventory.ms_inventory.init;
+package com.morales.ms_inventory.init;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;

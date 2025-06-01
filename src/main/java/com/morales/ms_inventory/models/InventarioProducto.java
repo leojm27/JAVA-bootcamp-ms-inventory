@@ -1,4 +1,4 @@
-package com.ms.inventory.ms_inventory.models;
+package com.morales.ms_inventory.models;
 
 import jakarta.persistence.*;
 import lombok.Data;

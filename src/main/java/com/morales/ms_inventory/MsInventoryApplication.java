@@ -1,8 +1,7 @@
-package com.ms.inventory.ms_inventory;
+package com.morales.ms_inventory;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication
 // @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})

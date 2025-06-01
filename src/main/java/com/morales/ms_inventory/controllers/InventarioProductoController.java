@@ -1,7 +1,7 @@
-package com.ms.inventory.ms_inventory.controllers;
+package com.morales.ms_inventory.controllers;
 
-import com.ms.inventory.ms_inventory.models.InventarioProducto;
-import com.ms.inventory.ms_inventory.service.InventarioProductoService;
+import com.morales.ms_inventory.models.InventarioProducto;
+import com.morales.ms_inventory.service.InventarioProductoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

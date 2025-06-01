@@ -1,4 +1,4 @@
-package com.ms.inventory.ms_inventory.security;
+package com.morales.ms_inventory.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

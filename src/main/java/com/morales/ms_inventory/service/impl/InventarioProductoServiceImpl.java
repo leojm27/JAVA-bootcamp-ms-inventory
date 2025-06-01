@@ -1,8 +1,8 @@
-package com.ms.inventory.ms_inventory.service.impl;
+package com.morales.ms_inventory.service.impl;
 
-import com.ms.inventory.ms_inventory.models.InventarioProducto;
-import com.ms.inventory.ms_inventory.repository.InventarioProductoRepository;
-import com.ms.inventory.ms_inventory.service.InventarioProductoService;
+import com.morales.ms_inventory.repository.InventarioProductoRepository;
+import com.morales.ms_inventory.service.InventarioProductoService;
+import com.morales.ms_inventory.models.InventarioProducto;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
