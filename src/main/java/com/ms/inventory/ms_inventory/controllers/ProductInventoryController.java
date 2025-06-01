@@ -77,13 +77,47 @@ public class ProductInventoryController {
     public ResponseEntity<?> deleteProductInventory(@PathVariable("id") Long id) {
         try {
             productInventoryService.softDeleteProductInventory(id);
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.ok().build();
         } catch (IllegalArgumentException ie) {
-            return ResponseEntity.badRequest().body(ie.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(ie.getMessage());
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error al eliminar inventario de producto con ID " + id + ": " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/api/product-inventories/by-product/{productId}")
+    public ResponseEntity<?> updateProductInventoryPorProductId(@RequestBody ProductInventory productInventory, @PathVariable("productId") Long id) {
+        try {
+            ProductInventory updatedProductInventory = productInventoryService.updateProductInventoryPorProductId(productInventory, id);
+            if (updatedProductInventory != null) {
+                return ResponseEntity.ok(updatedProductInventory);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al actualizar inventario de producto con ID " + id + ": " + e.getMessage());
+        }
+    }
+
+    @DeleteMapping("/api/product-inventories/by-product/{productId}")
+    public ResponseEntity<?> deleteProductInventoryByProductId(@PathVariable("productId") Long productId) {
+        try {
+            productInventoryService.softDeleteProductInventoryByProductId(productId);
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException ie) {
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .body(ie.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al eliminar inventario de producto con ID " + productId + ": " + e.getMessage());
         }
     }
 

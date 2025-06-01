@@ -6,6 +6,7 @@ import com.ms.inventory.ms_inventory.service.ProductInventoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -59,6 +60,31 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
         }
 
         productInventory.setDeletedAt(new java.util.Date());
+        productInventoryRepository.save(productInventory);
+    }
+
+    @Override
+    public ProductInventory updateProductInventoryPorProductId(ProductInventory updateProductInventory, Long productId) {
+        ProductInventory productInventory = productInventoryRepository.findByProductId(productId);
+        if (productInventory == null || productInventory.getDeletedAt() != null) { return null; }
+
+        if (updateProductInventory.getCantidad() != null) {
+            productInventory.setCantidad(updateProductInventory.getCantidad());
+        }
+        if (updateProductInventory.getCantidadMinima() != null) {
+            productInventory.setCantidadMinima(updateProductInventory.getCantidadMinima());
+        }
+        return productInventoryRepository.save(productInventory);
+    }
+
+    @Override
+    public void softDeleteProductInventoryByProductId(Long productId) {
+        ProductInventory productInventory = productInventoryRepository.findByProductId(productId);
+        if (productInventory == null || productInventory.getDeletedAt() != null) {
+            throw new IllegalArgumentException("El inventario del producto con ID " + productId + " no existe");
+        }
+
+        productInventory.setDeletedAt(new Date());
         productInventoryRepository.save(productInventory);
     }
 }

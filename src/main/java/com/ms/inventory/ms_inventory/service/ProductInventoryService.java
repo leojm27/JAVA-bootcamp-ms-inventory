@@ -14,6 +14,10 @@ public interface ProductInventoryService {
 
     ProductInventory updateProductInventory(ProductInventory productInventory, Long id);
 
+    ProductInventory updateProductInventoryPorProductId(ProductInventory productInventory, Long productId);
+
     void softDeleteProductInventory(Long id);
+
+    void softDeleteProductInventoryByProductId(Long productId);
 
 }
