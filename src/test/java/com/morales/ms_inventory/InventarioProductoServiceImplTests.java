@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -62,7 +63,8 @@ public class InventarioProductoServiceImplTests {
         InventarioProducto inventarioProducto = new InventarioProducto();
         inventarioProducto.setProductoId(productId);
 
-        when(inventarioProductoRepository.findByProductoId(productId)).thenReturn(inventarioProducto);
+        List<InventarioProducto> inventarioList = List.of(inventarioProducto);
+        when(inventarioProductoRepository.findAll()).thenReturn(inventarioList);
 
         InventarioProducto result = inventarioProductoServiceImpl.getInventarioProductoPorProductoId(productId);
         assertThat(result).isNotNull();
@@ -89,7 +91,10 @@ public class InventarioProductoServiceImplTests {
         InventarioProducto inventarioProducto = new InventarioProducto();
         inventarioProducto.setCantidad(100L);
         inventarioProducto.setProductoId(1L);
+        inventarioProducto.setDeletedAt(new Date());
 
+        List<InventarioProducto> inventarioList = List.of(inventarioProducto);
+        when(inventarioProductoRepository.findAll()).thenReturn(inventarioList);
         when(inventarioProductoRepository.save(inventarioProducto)).thenReturn(inventarioProducto);
 
         InventarioProducto result = inventarioProductoServiceImpl.createInventarioProducto(inventarioProducto);
@@ -176,14 +181,15 @@ public class InventarioProductoServiceImplTests {
         Long productId = 1L;
         InventarioProducto inventarioProducto = new InventarioProducto();
         inventarioProducto.setProductoId(productId);
-        inventarioProducto.setCantidad(300L);
+        inventarioProducto.setCantidad(150L);
 
-        when(inventarioProductoRepository.findByProductoId(productId)).thenReturn(inventarioProducto);
+        List<InventarioProducto> inventarioList = List.of(inventarioProducto);
+        when(inventarioProductoRepository.findAll()).thenReturn(inventarioList);
         when(inventarioProductoRepository.save(inventarioProducto)).thenReturn(inventarioProducto);
 
         InventarioProducto result = inventarioProductoServiceImpl.updateInventarioProductoPorProductoId(inventarioProducto, productId);
         assertThat(result).isNotNull();
-        assertThat(result.getCantidad()).isEqualTo(300);
+        assertThat(result.getCantidad()).isEqualTo(150);
     }
 
     /* softDeleteInventarioProductoPorProductoId */
@@ -193,7 +199,8 @@ public class InventarioProductoServiceImplTests {
         InventarioProducto inventarioProducto = new InventarioProducto();
         inventarioProducto.setProductoId(productId);
 
-        when(inventarioProductoRepository.findByProductoId(productId)).thenReturn(inventarioProducto);
+        List<InventarioProducto> inventarioList = List.of(inventarioProducto);
+        when(inventarioProductoRepository.findAll()).thenReturn(inventarioList);
         inventarioProductoServiceImpl.softDeleteInventarioProductoPorProductoId(productId);
         assertThat(inventarioProducto.getDeletedAt()).isNotNull();
     }

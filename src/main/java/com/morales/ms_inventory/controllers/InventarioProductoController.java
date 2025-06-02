@@ -64,7 +64,9 @@ public class InventarioProductoController {
                     .status(HttpStatus.CREATED)
                     .body(newInventarioProducto);
         } catch (IllegalArgumentException ie) {
-            return ResponseEntity.badRequest().body(ie.getMessage());
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body(ie.getMessage());
         } catch (Exception e) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)

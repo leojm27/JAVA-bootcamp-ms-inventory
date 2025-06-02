@@ -46,7 +46,12 @@ public class InventarioProductoServiceImpl implements InventarioProductoService 
      */
     @Override
     public InventarioProducto getInventarioProductoPorProductoId(Long productId) {
-        InventarioProducto inventarioProducto = productInventoryRepository.findByProductoId(productId);
+        InventarioProducto inventarioProducto = productInventoryRepository.findAll()
+                .stream()
+                .filter(inventario -> inventario.getProductoId().equals(productId) && inventario.getDeletedAt() == null)
+                .findFirst()
+                .orElse(null);
+
         if (inventarioProducto == null || inventarioProducto.getDeletedAt() != null) {
             throw new IllegalArgumentException("El inventario del producto con ID " + productId + " no existe");
         }
@@ -61,6 +66,16 @@ public class InventarioProductoServiceImpl implements InventarioProductoService 
      */
     @Override
     public InventarioProducto createInventarioProducto(InventarioProducto inventarioProducto) {
+        InventarioProducto existingInventario = productInventoryRepository.findAll()
+                .stream()
+                .filter(inv -> inv.getProductoId().equals(inventarioProducto.getProductoId()) && inv.getDeletedAt() == null)
+                .findFirst()
+                .orElse(null);
+
+        if (existingInventario != null && existingInventario.getDeletedAt() == null) {
+            throw new IllegalArgumentException("El inventario del producto con ID " + inventarioProducto.getProductoId() + " ya existe");
+        }
+
         return productInventoryRepository.save(inventarioProducto);
     }
 
@@ -72,7 +87,7 @@ public class InventarioProductoServiceImpl implements InventarioProductoService 
      */
     @Override
     public InventarioProducto updateInventarioProducto(InventarioProducto inventarioProducto, Long id) {
-        return productInventoryRepository.findById(id)
+        return productInventoryRepository.findById(id).filter(existingInventarioProducto -> existingInventarioProducto.getDeletedAt() == null)
                 .map(existingInventarioProducto -> {
                     if (inventarioProducto.getCantidad() != null) {
                         existingInventarioProducto.setCantidad(inventarioProducto.getCantidad());
@@ -94,7 +109,9 @@ public class InventarioProductoServiceImpl implements InventarioProductoService 
      */
     @Override
     public void softDeleteInventarioProducto(Long id) {
-        InventarioProducto inventarioProducto = productInventoryRepository.findById(id).orElse(null);
+        InventarioProducto inventarioProducto = productInventoryRepository.findById(id)
+                .filter(inventario -> inventario.getDeletedAt() == null)
+                .orElse(null);
         if (inventarioProducto == null) {
             throw new IllegalArgumentException("El inventario del producto con ID " + id + " no existe");
         }
@@ -111,7 +128,12 @@ public class InventarioProductoServiceImpl implements InventarioProductoService 
      */
     @Override
     public InventarioProducto updateInventarioProductoPorProductoId(InventarioProducto updateInventarioProducto, Long productId) {
-        InventarioProducto inventarioProducto = productInventoryRepository.findByProductoId(productId);
+        InventarioProducto inventarioProducto = productInventoryRepository.findAll()
+                .stream()
+                .filter(inventario -> inventario.getProductoId().equals(productId) && inventario.getDeletedAt() == null)
+                .findFirst()
+                .orElse(null);
+
         if (inventarioProducto == null || inventarioProducto.getDeletedAt() != null) { return null; }
 
         if (updateInventarioProducto.getCantidad() != null) {
@@ -130,7 +152,12 @@ public class InventarioProductoServiceImpl implements InventarioProductoService 
      */
     @Override
     public void softDeleteInventarioProductoPorProductoId(Long productId) {
-        InventarioProducto inventarioProducto = productInventoryRepository.findByProductoId(productId);
+        InventarioProducto inventarioProducto = productInventoryRepository.findAll()
+                .stream()
+                .filter(inventario -> inventario.getProductoId().equals(productId) && inventario.getDeletedAt() == null)
+                .findFirst()
+                .orElse(null);
+
         if (inventarioProducto == null || inventarioProducto.getDeletedAt() != null) {
             throw new IllegalArgumentException("El inventario del producto con ID " + productId + " no existe");
         }

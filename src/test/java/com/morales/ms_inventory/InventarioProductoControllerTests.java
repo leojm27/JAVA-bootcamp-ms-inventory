@@ -105,7 +105,7 @@ public class InventarioProductoControllerTests {
             .thenThrow(new IllegalArgumentException("Error al crear inventario"));
 
         ResponseEntity<?> response = inventarioProductoController.createInventarioProducto(inventarioProducto);
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CONFLICT);
         assertThat(response.getBody()).isEqualTo("Error al crear inventario");
     }
 
