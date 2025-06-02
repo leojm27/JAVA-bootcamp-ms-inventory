@@ -9,7 +9,7 @@ public class MsInventoryApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(MsInventoryApplication.class, args);
-		System.out.println("Inventory Service is running...");
+		System.out.println("Microservicio 'ms-inventory' iniciado correctamente.");
 	}
 
 }
