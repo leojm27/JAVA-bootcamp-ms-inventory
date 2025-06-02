@@ -1,0 +1,186 @@
+openapi: 3.0.1
+info:
+  title: MICROSERVICIO 'MS-INVENTORY'
+  description: Microservicio encargado de gestionar el inventario de productos. Controla las operaciones relacionadas con el stock, como agregar, quitar o consultar cantidades disponibles.
+  version: v1
+servers:
+  - url: http://localhost:8081
+    description: Generated server url
+paths:
+  /api/inventario-producto/{id}:
+    get:
+      tags:
+        - inventario-producto-controller
+      operationId: getInventarioProductoById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    put:
+      tags:
+        - inventario-producto-controller
+      operationId: updateInventarioProducto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InventarioProducto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    delete:
+      tags:
+        - inventario-producto-controller
+      operationId: deleteInventarioProducto
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/inventario-producto/por-producto/{productId}:
+    get:
+      tags:
+        - inventario-producto-controller
+      operationId: getInventarioProductoPorProductoId
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    put:
+      tags:
+        - inventario-producto-controller
+      operationId: updateInventarioProductoPorProductoId
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InventarioProducto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    delete:
+      tags:
+        - inventario-producto-controller
+      operationId: deleteInventarioProductoPorProductoId
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/inventario-producto:
+    get:
+      tags:
+        - inventario-producto-controller
+      operationId: getInventarioProductos
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+    post:
+      tags:
+        - inventario-producto-controller
+      operationId: createInventarioProducto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InventarioProducto"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+components:
+  schemas:
+    InventarioProducto:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        productoId:
+          type: integer
+          format: int64
+        cantidad:
+          type: integer
+          format: int64
+        cantidadMinima:
+          type: integer
+          format: int64
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        deletedAt:
+          type: string
+          format: date-time
