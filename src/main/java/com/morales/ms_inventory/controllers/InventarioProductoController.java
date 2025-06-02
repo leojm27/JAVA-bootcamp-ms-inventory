@@ -119,6 +119,24 @@ public class InventarioProductoController {
         }
     }
 
+    @GetMapping("/api/inventario-producto/por-producto/{productId}")
+    public ResponseEntity<?> getInventarioProductoPorProductoId(@PathVariable("productId") Long productId) {
+        try {
+            InventarioProducto inventarioProducto = productInventoryService.getInventarioProductoPorProductoId(productId);
+            if (inventarioProducto != null) {
+                return ResponseEntity.ok(inventarioProducto);
+            } else {
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body("Inventario de producto con ID de producto " + productId + " no encontrado.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error al obtener inventario de producto con ID de producto " + productId + ": " + e.getMessage());
+        }
+    }
+
     /**
      * Actualiza un inventario de producto por su ID de producto.
      * @param inventarioProducto

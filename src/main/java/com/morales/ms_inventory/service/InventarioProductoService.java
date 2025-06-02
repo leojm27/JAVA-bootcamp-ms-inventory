@@ -10,6 +10,8 @@ public interface InventarioProductoService {
 
     InventarioProducto getInventarioProductoById(Long id);
 
+    InventarioProducto getInventarioProductoPorProductoId(Long productId);
+
     InventarioProducto createInventarioProducto(InventarioProducto inventarioProducto);
 
     InventarioProducto updateInventarioProducto(InventarioProducto inventarioProducto, Long id);

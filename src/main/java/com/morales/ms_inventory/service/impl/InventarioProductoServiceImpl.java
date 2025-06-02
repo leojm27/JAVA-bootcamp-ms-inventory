@@ -39,6 +39,16 @@ public class InventarioProductoServiceImpl implements InventarioProductoService 
                 .orElse(null);
     }
 
+    @Override
+    public InventarioProducto getInventarioProductoPorProductoId(Long productId) {
+        InventarioProducto inventarioProducto = productInventoryRepository.findByProductoId(productId);
+        if (inventarioProducto == null || inventarioProducto.getDeletedAt() != null) {
+            throw new IllegalArgumentException("El inventario del producto con ID " + productId + " no existe");
+        }
+
+        return inventarioProducto;
+    }
+
     /**
      * Crea un nuevo inventario de producto.
      * @param inventarioProducto
