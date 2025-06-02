@@ -18,8 +18,7 @@ public class InventarioProductoController {
      * @return ResponseEntity con la lista de inventarios de productos o un mensaje de error.
      */
     @GetMapping("/api/inventario-producto")
-    public ResponseEntity<?> getProductInventories() {
-        System.out.println("Obteniendo inventarios de productos...");
+    public ResponseEntity<?> getInventarioProductos() {
         try {
             return ResponseEntity.ok(productInventoryService.getInventarioProductos());
         } catch (Exception e) {
@@ -35,11 +34,11 @@ public class InventarioProductoController {
      * @return ResponseEntity con el inventario de producto o un mensaje de error.
      */
     @GetMapping("/api/inventario-producto/{id}")
-    public ResponseEntity<?> getProductInventoryById(@PathVariable Long id) {
+    public ResponseEntity<?> getInventarioProductoById(@PathVariable Long id) {
         try {
-            var productInventory = productInventoryService.getInventarioProductoById(id);
-            if (productInventory != null) {
-                return ResponseEntity.ok(productInventory);
+            InventarioProducto inventarioProducto = productInventoryService.getInventarioProductoById(id);
+            if (inventarioProducto != null) {
+                return ResponseEntity.ok(inventarioProducto);
             } else {
                 return ResponseEntity
                         .status(HttpStatus.NOT_FOUND)
@@ -81,7 +80,6 @@ public class InventarioProductoController {
      */
     @PutMapping("/api/inventario-producto/{id}")
     public ResponseEntity<?> updateInventarioProducto(@RequestBody InventarioProducto inventarioProducto, @PathVariable("id") Long id) {
-        System.out.println("updateInventarioProducto");
         try {
             InventarioProducto updatedInventarioProducto = productInventoryService.updateInventarioProducto(inventarioProducto, id);
             if (updatedInventarioProducto != null) {

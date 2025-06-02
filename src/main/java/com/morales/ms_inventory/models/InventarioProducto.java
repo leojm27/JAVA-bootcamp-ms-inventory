@@ -1,6 +1,7 @@
 package com.morales.ms_inventory.models;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Date;
 @Entity
 @Table(name = "inventario_producto")
 @NoArgsConstructor
+@AllArgsConstructor
 public class InventarioProducto {
 
     @Id
@@ -32,12 +34,6 @@ public class InventarioProducto {
 
     @Column(name = "deleted_at")
     private Date deletedAt;
-
-    public InventarioProducto(Long productoId, Long cantidad, Long cantidadMinima) {
-        this.productoId = productoId;
-        this.cantidad = cantidad;
-        this.cantidadMinima = cantidadMinima;
-    }
 
     @PreUpdate
     protected void onUpdate() {

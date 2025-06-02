@@ -39,6 +39,11 @@ public class InventarioProductoServiceImpl implements InventarioProductoService 
                 .orElse(null);
     }
 
+    /**
+     * Obtiene un inventario de producto por su ID de producto.
+     * @param productId
+     * @return InventarioProducto o null si no se encuentra el inventario.
+     */
     @Override
     public InventarioProducto getInventarioProductoPorProductoId(Long productId) {
         InventarioProducto inventarioProducto = productInventoryRepository.findByProductoId(productId);
