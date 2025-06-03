@@ -1,0 +1,30 @@
+services:
+  app:
+    image: ms-inventory:v1
+    container_name: ms-inventory
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db-inventory
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+      SPRING_SECURITY_USER_NAME: admin
+      SPRING_SECURITY_USER_PASSWORD: admin
+    networks:
+      - ms-network
+    depends_on:
+      - db
+
+  db:
+    image: postgres:16
+    container_name: postgres-inventory
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: db-inventory
+    networks:
+      - ms-network
+
+networks:
+  ms-network:
+    driver: bridge
